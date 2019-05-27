@@ -18,6 +18,7 @@ CREATE TABLE `Reservations`
   `checkIn` date,
   `checkOut` date,
   `numAdults` int,
+  `numKids` int,
   `active` boolean,
   FOREIGN KEY (`custID`) REFERENCES `customer` (`id`),
   FOREIGN KEY (`roomID`) REFERENCES `room` (`roomID`),
@@ -30,9 +31,9 @@ CREATE TABLE `card`
   `number` int PRIMARY KEY
 );
 
-CREATE TABLE `customer`
+CREATE TABLE `Customers`
 (
   `id` int PRIMARY KEY,
-  `first` varchar(255),
-  `last` varchar(255)
+  `firstName` varchar(255),
+  `lastName` varchar(255)
 );
