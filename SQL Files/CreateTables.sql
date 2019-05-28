@@ -26,9 +26,9 @@ CREATE TABLE `Reservations`
 
 );
 
-CREATE TABLE `card`
+CREATE TABLE `Cards`
 (
-  `number` int PRIMARY KEY
+  `cardNum` int PRIMARY KEY
 );
 
 CREATE TABLE `Customers`
