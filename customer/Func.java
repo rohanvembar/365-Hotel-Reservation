@@ -1,0 +1,4 @@
+public enum Func {
+    CONNECT, SEARCH, SHOW, RESERVE, UPDATE,
+    CANCEL, HISTORY, QUIT, NONE
+}
