@@ -25,4 +25,16 @@ update Reservations set roomID = ?, checkIn = ?, checkout = ? where id = ?
 --- The system shall allow users to search for availabilities of rooms specifying day
 ---(checkout and checkin dates), the type of room (single, double, twin, etc), the
 ---decor, the price range, the number of rooms, and the number of occupants.
-select roomName, numBeds, bedType, maxOccupancy, rate, decor from Rooms where bedType = ? and decor = ? and rate < ? and rate > ? and maxOccupancy >= ?
+select roomName, numBeds, bedType, maxOccupancy, rate, decor from Rooms where bedType = ? and decor = ? and rate < ? and rate > ? and maxOccupancy >= ? and roomID not in (select roomID from Reservations where checkIn >= ? and checkOut <= ? and roomID in (select roomID from Rooms where bedType = ? and decor = ? and rate < ? and rate > ? and maxOccupancy >= ?))
+---?1: bedType (Double, Queen, King)
+---?2: decor (traditional, modern, rustic)
+---?3: max rate
+---?4: min rate
+---?5: number of guests
+---?6 check in date
+---?7: check out date
+---?8: bedType (Double, Queen, King)
+---?9: decor (traditional, modern, rustic)
+---?10: max rate
+---?11: min rate
+---?12: number of guests
