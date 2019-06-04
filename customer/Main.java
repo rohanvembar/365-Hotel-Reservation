@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.sql.* ;
 
 public class Main {
 //    public static final int CONNECT = 0;
@@ -9,6 +10,7 @@ public class Main {
 //    public static final int CANCEL = 5;
 //    public static final int HISTORY = 6;
 //    public static final int QUIT = 7;
+	public static boolean connected = false;
     public static void main(String args[]) {
         Scanner scanner = new Scanner(System.in);
         Func func;
