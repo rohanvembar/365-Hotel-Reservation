@@ -1,0 +1,4 @@
+jdbc:mysql://toshikuboi.net:3306/sec03group05
+
+username: sec03group05
+password: group05@sec03

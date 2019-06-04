@@ -13,16 +13,16 @@ CREATE TABLE `Reservations`
 (
   `id` int PRIMARY KEY,
   `custID` int,
-  `roomID` int,
+  `roomID` varchar(50),
   `cardNum` int,
   `checkIn` date,
   `checkOut` date,
   `numAdults` int,
   `numKids` int,
   `active` boolean,
-  FOREIGN KEY (`custID`) REFERENCES `customer` (`id`),
-  FOREIGN KEY (`roomID`) REFERENCES `room` (`roomID`),
-  FOREIGN KEY (`cardNum`) REFERENCES `card` (`number`)
+  FOREIGN KEY (`custID`) REFERENCES `Customers` (`id`),
+  FOREIGN KEY (`roomID`) REFERENCES `Rooms` (`roomID`),
+  FOREIGN KEY (`cardNum`) REFERENCES `Cards` (`cardNum`)
 
 );
 
