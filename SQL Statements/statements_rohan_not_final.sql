@@ -25,7 +25,7 @@ update Reservations set roomID = ?, checkIn = ?, checkout = ? where id = ?
 --- The system shall allow users to search for availabilities of rooms specifying day
 ---(checkout and checkin dates), the type of room (single, double, twin, etc), the
 ---decor, the price range, the number of rooms, and the number of occupants.
-select roomName, numBeds, bedType, maxOccupancy, rate, decor from Rooms where bedType = ? and decor = ? and rate < ? and rate > ? and maxOccupancy >= ? and roomID not in (select roomID from Reservations where checkIn >= ? and checkOut <= ? and roomID in (select roomID from Rooms where bedType = ? and decor = ? and rate < ? and rate > ? and maxOccupancy >= ?))
+select roomName, numBeds, bedType, maxOccupancy, rate, decor from Rooms where bedType = ? and decor = ? and rate < ? and rate > ? and maxOccupancy >= ? and roomID not in (select roomID from Reservations where (checkIn >= ? and checkOut <= ?) and roomID in (select roomID from Rooms where bedType = ? and decor = ? and rate < ? and rate > ? and maxOccupancy >= ?))
 ---?1: bedType (Double, Queen, King)
 ---?2: decor (traditional, modern, rustic)
 ---?3: max rate
@@ -38,3 +38,9 @@ select roomName, numBeds, bedType, maxOccupancy, rate, decor from Rooms where be
 ---?10: max rate
 ---?11: min rate
 ---?12: number of guests
+
+
+---The system shall display availability of rooms for a given day
+select roomName, popularity, rate, IF(? >= nextAvail, "Available", "Not Available") as available, nextAvail, bedType, numBeds, maxOccupancy from (select roomID, max(checkout) as nextAvail, round(sum(datediff(checkout, checkin))/180, 2) as popularity from Reservations where checkout >= date_sub(?, interval 180 day) group by roomID) tmp join Rooms on tmp.roomID = Rooms.roomID
+---?1: user inputted day
+---?2: same thing
