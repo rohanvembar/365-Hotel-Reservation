@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 
 public class Manager {
 
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String JDNC_DB_URL = "jbdc:mysql://toshikuboi.net:3306/sec03group05";
+    static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
+    static final String JDNC_DB_URL = "jdbc:mysql://csc365.toshikuboi.net:3306/sec03group05";
 
     static final String JDBC_USER = "sec03group05";
     static final String JDBC_PASS = "group05@sec03";
@@ -16,29 +16,27 @@ public class Manager {
         //Scanner scanner = new Scanner(System.in);
         try {
             //Check if the driver class is available
-            Class.forName(JDBC_DRIVER);
+            Class.forName(JDBC_DRIVER).newInstance();
 
             // Do the base connection
             Connection connection = DriverManager.getConnection(JDNC_DB_URL, JDBC_USER, JDBC_PASS);
 
             // Add the statement
-            PreparedStatement preparedStatement = connection.prepareStatement("");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from Reservations Limit 5");
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                String coffeeName = resultSet.getString("COF_NAME");
-                int supplierID = resultSet.getInt("SUP_ID");
-                float price = resultSet.getFloat("PRICE");
-                int sales = resultSet.getInt("SALES");
-                int total = resultSet.getInt("TOTAL");
-                System.out.println(coffeeName + "\t" + supplierID +
-                        "\t" + price + "\t" + sales +
-                        "\t" + total);
+                String result = resultSet.toString();
+                System.out.println(result);
             }
 
         } catch (Exception sqlException) {
             sqlException.printStackTrace();
         }
+    }
+
+    public static void main(String args[]){
+        getReview();
     }
 }
