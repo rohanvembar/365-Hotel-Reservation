@@ -136,9 +136,11 @@ public class Database {
 	{
 		if(commands.length != 3) {
 			System.err.printf("Usage: %s", IO.history_usage);
+			return;
 		}
 		if(commands[1] != "-res") {
 			System.err.printf("Usage: %s", IO.history_usage);
+			return;
 		}
 		int res_num = IO.read_int(commands[2]);
 		if(res_num == -1) {
