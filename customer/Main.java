@@ -15,8 +15,8 @@ public class Main {
         //displayReservationsFromName();
         //displayReservation();
         //changeReservation();
-        displayAvailAndPop();
-        //searchRooms();
+        //displayAvailAndPop();
+        searchRooms();
     }
 
     final public static void printResultSet(ResultSet rs) throws SQLException {
@@ -250,35 +250,47 @@ public class Main {
                     "< ? and rate > ? and maxOccupancy >= ?))");
             if (bedtype.isEmpty()) {
                 preparedStatement.setString(1, "%");
+                preparedStatement.setString(8, "%");
+
+
             }
             else {
                 preparedStatement.setString(1, bedtype);
+                preparedStatement.setString(8, bedtype);
+
             }
             if (decor.isEmpty()){
                 preparedStatement.setString(2, "%");
+                preparedStatement.setString(9, "%");
+
             }
             else {
                 preparedStatement.setString(2, decor);
+                preparedStatement.setString(9, decor);
             }
             if (maxrate.isEmpty()) {
                 preparedStatement.setString(3, "9999");
+                preparedStatement.setString(10, "9999");
+
             }
             else {
                 preparedStatement.setString(3, maxrate);
+                preparedStatement.setString(10, maxrate);
+
             }
             if (minrate.isEmpty()) {
                 preparedStatement.setString(4, "0");
+                preparedStatement.setString(11, "0");
+
             }
             else {
                 preparedStatement.setString(4, minrate);
+                preparedStatement.setString(11, minrate);
+
             }
             preparedStatement.setString(5, numguests);
             preparedStatement.setDate(6, java.sql.Date.valueOf(checkin));
             preparedStatement.setDate(7, java.sql.Date.valueOf(checkout));
-            preparedStatement.setString(8, bedtype);
-            preparedStatement.setString(9, decor);
-            preparedStatement.setString(10, maxrate);
-            preparedStatement.setString(11, minrate);
             preparedStatement.setString(12, numguests);
 
             ResultSet resultSet = preparedStatement.executeQuery();
