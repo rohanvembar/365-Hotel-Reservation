@@ -57,6 +57,81 @@ public class Database {
 		}
 	}
 	
+	public static void update_reservation(String[] commands) {
+		// query for reservation
+		// convert to Reservation class
+		// change values
+		// UPDATE row where id = id with the changes
+		if(commands.length % 2 != 1) {
+			System.err.printf("Usage: %s", IO.search_usage);
+			return;
+		}
+		Reservation res = new Reservation();
+		int i = 1;
+		while(i < commands.length) {
+			switch(commands[i]) {
+				case "-user":
+					res.user_id = IO.read_int(commands[i+1]);
+					if(res.user_id == -1) {
+						System.err.println("Invalid user ID");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i += 2;
+					break;
+				case "-card":
+					res.card = IO.read_int(commands[i+1]);
+					if(res.card == -1) {
+						System.err.println("Invalid card number");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i += 2;
+					break;
+				case "-room":
+					res.room = IO.read_int(commands[i+1]);
+					if(res.room == -1) {
+						System.err.println("Invalid room number");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i += 2;
+					break;
+				case "-checkin":
+					res.checkin = commands[i+1];
+					if(!is_valid_date(res.checkin)) {
+						System.err.println("Invalid check-in date");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i+=2;
+					break;
+				case "-checkout":
+					res.checkout = commands[i+1];
+					if(!is_valid_date(res.checkout)) {
+						System.err.println("Invalid check-out date");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i+=2;
+					break;
+				case "-adults":
+					res.num_adults = IO.read_int(commands[i+1]);
+					if(res.num_adults == -1) {
+						System.err.println("Invalid number of adults");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i += 2;
+					break;
+				default:
+					System.err.printf("Usage: %s", IO.reserve_usage);
+					return;
+			}
+		}
+
+	}
+	
 	public static void get_history(String[] commands)
 	{
 		if(commands.length != 3) {
@@ -65,16 +140,21 @@ public class Database {
 		if(commands[1] != "-res") {
 			System.err.printf("Usage: %s", IO.history_usage);
 		}
-		int res_num = IO.read_int(commands[1]);
+		int res_num = IO.read_int(commands[2]);
 		if(res_num == -1) {
+			System.err.printf("Usage: %s", IO.history_usage);
 			return;
 		}
-//		history query
 	}
 	
 	public static void cancel_room(String[] commands) {
+		if(commands.length != 2) {
+			System.err.printf("Usage: %s", IO.cancel_usage);
+		}
 		int res_num = IO.read_int(commands[1]);
 		if(res_num == -1) {
+			System.err.printf("Invalid room id\n");
+			System.err.printf("Usage: %s", IO.cancel_usage);
 			return;
 		}
 //		cancel room query
@@ -148,6 +228,7 @@ public class Database {
 					return;
 			}
 		}
+		res.print_res();
 	}
 	
 	public static void show_availabilities(String[] commands)

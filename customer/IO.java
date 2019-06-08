@@ -71,31 +71,56 @@ public class IO {
         }
         switch(command[0]) {
             case "connect":
+            	if(Main.connected = true) {
+            		return Func.CONNECT;
+            	}
             	if(Database.connect_to_db() == null) {
-            		System.out.println("Failed to connect to database");
+            		System.err.println("Failed to connect to database");
             	}
             	else {
             		Main.connected = true;
             	}
                 return Func.CONNECT;
             case "search":
+            	if(Main.connected = false) {
+            		System.err.println("Must connect to database");
+            	}
                 Database.search_db(command);
                 return Func.SEARCH;
             case "show":
+            	if(Main.connected = false) {
+            		System.err.println("Must connect to database");
+            	}
             	Database.show_availabilities(command);
                 return Func.SHOW;
             case "reserve":
+            	if(Main.connected = false) {
+            		System.err.println("Must connect to database");
+            	}
             	Database.reserve_room(command);
                 return Func.RESERVE;
             case "update":
+            	if(Main.connected = false) {
+            		System.err.println("Must connect to database");
+            	}
+            	Database.update_reservation(command);
                 return Func.UPDATE;
             case "cancel":
+            	if(Main.connected = false) {
+            		System.err.println("Must connect to database");
+            	}
             	Database.cancel_room(command);
                 return Func.CANCEL;
             case "history":
+            	if(Main.connected = false) {
+            		System.err.println("Must connect to database");
+            	}
             	Database.get_history(command);
                 return Func.HISTORY;
             case "quit":
+            	if(Main.connected = false) {
+            		System.err.println("Must connect to database");
+            	}
             	Database.disconnect();
                 return Func.QUIT;
             default:
