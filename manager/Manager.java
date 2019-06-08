@@ -37,8 +37,8 @@ public class Manager {
 
             int month = 1;
 
-            Room currentRoom = new Room("filler");
-            ArrayList<Room> rooms = new ArrayList<>();
+            ManagerRoom currentRoom = new ManagerRoom("filler");
+            ArrayList<ManagerRoom> rooms = new ArrayList<>();
 
             while (resultSet.next()) {
                 if (month == 13){
@@ -51,7 +51,7 @@ public class Manager {
 
                 if (month == 1) {
                     String name = resultSet.getString("roomName");
-                    currentRoom = new Room(name);
+                    currentRoom = new ManagerRoom(name);
                 }
 
                 currentRoom.addMonthRevenue(m-1, rev);
@@ -72,7 +72,7 @@ public class Manager {
             System.out.println(barrier);
             System.out.println(header + barrier);
 
-            for (Room r : rooms){
+            for (ManagerRoom r : rooms){
                 System.out.println(r.toString());
             }
 

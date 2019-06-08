@@ -11,9 +11,8 @@ public class IO {
 							            "        -checkin yyyy-mm-dd -checkout yyyy-mm-dd\n" +
 							            "        -adults num_adults\n";
 	public static String update_usage = "update -res reservation_num [-user user_id]\n" +
-            							"       [-card card_num] [-room room_id]\n" +
-							            "       [-checkin yyyy-mm-dd] [-checkout yyyy-mm-dd]\n" +
-							            "       [-adults x]\n";
+            							"       [-room room_id][-checkin yyyy-mm-dd]\n" +
+							            "       [-checkout yyyy-mm-dd][-adults x]\n";
 	public static String cancel_usage = "cancel -res reservation_num\n";
 	public static String history_usage = "history user_id\n";
 	public static String quit_usage = "quit\n";
@@ -45,7 +44,26 @@ public class IO {
                 cancel_usage, history_usage, quit_usage);
     }
 
-    public static void print_search_usage() {
+    public static double read_double(String arg) {
+		try {
+			double num = Double.parseDouble(arg);
+			return num;
+		}
+		catch (Exception e) {
+			System.out.printf("Usage: %s", IO.history_usage);
+			return -1;
+		}
+    }
+    
+    public static int read_int(String arg) {
+		try {
+			int num = Integer.parseInt(arg);
+			return num;
+		}
+		catch (Exception e) {
+			System.out.printf("Usage: %s", IO.history_usage);
+			return -1;
+		}
     }
     
     public static Func read_input(Scanner scanner) {
@@ -69,14 +87,18 @@ public class IO {
             	Database.show_availabilities(command);
                 return Func.SHOW;
             case "reserve":
+            	Database.reserve_room(command);
                 return Func.RESERVE;
             case "update":
                 return Func.UPDATE;
             case "cancel":
+            	Database.cancel_room(command);
                 return Func.CANCEL;
             case "history":
+            	Database.get_history(command);
                 return Func.HISTORY;
             case "quit":
+            	Database.disconnect();
                 return Func.QUIT;
             default:
                 System.err.printf("%s: Invalid command\n", command[0]);

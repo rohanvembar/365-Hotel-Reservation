@@ -1,10 +1,9 @@
-
-public class Room {
+public class ManagerRoom {
     private String room;
     private int[] revenues = new int[12];
     private int total;
 
-    public Room(String r){
+    public ManagerRoom(String r){
         room = r;
     }
 
