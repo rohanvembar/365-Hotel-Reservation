@@ -55,6 +55,15 @@ public class Manager {
                 month += 1;
             }
 
+            String header = String.format("%30s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s\n", "Room Name",
+                    "Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec.", "Total");
+
+            String barrier = "";
+            for (int i = 0; i < header.length(); i++){
+                barrier += "-";
+            }
+
+            System.out.println(header+barrier);
             for (Room r : rooms){
                 System.out.println(r.toString());
             }
