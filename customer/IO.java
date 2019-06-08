@@ -2,37 +2,52 @@ import java.util.Scanner;
 
 
 public class IO {
+	public static String connect_usage = "connect\n";
+	public static String search_usage = "search [-checkin yyyy-mm-dd] [-checkout yyyy-mm-dd]\n" +
+							            "       [-beds x] [-decor x] [-occupants x]\n" +
+							            "       [-type x] [-upper x] [-price x]\n";
+	public static String show_usage =  "show yyyy-mm-dd\n";
+	public static String reserve_usage = "reserve -user user_id -card card_num -room room_id\n" +
+							            "        -checkin yyyy-mm-dd -checkout yyyy-mm-dd\n" +
+							            "        -adults num_adults\n";
+	public static String update_usage = "update -res reservation_num [-user user_id]\n" +
+            							"       [-card card_num] [-room room_id]\n" +
+							            "       [-checkin yyyy-mm-dd] [-checkout yyyy-mm-dd]\n" +
+							            "       [-adults x]\n";
+	public static String cancel_usage = "cancel -res reservation_num\n";
+	public static String history_usage = "history user_id\n";
+	public static String quit_usage = "quit\n";
+	
     public static void overallUsage() {
         System.out.printf(
                 "-----------------------------------------------------------\n" +
                 "                          USAGE                        \n" +
                 "-----------------------------------------------------------\n" +
-                "connect\n" +
+                "%s" +
                 "	connect to reservation database\n\n" +
-                "search [-checkin yyyy/mm/dd] [-checkout yyyy/mm/ddd]\n" +
-                "       [-beds x] [-decor x] [-occupants x]\n" +
+                "%s" +
                 "	search for rooms fitting specified requirements\n\n" +
-                "show yyyy/mm/dd\n" +
+                "%s" +
                 "	show the availability for each room on the specified\n" +
                 "	day\n\n" +
-                "reserve -user user_id -card card_num -room room_id\n" +
-                "        -checkin yyyy/mm/dd -checkout yyyy/mm/dd\n" +
-                "        -adults num_adults\n" +
+                "%s" +
                 "	reserve a room\n\n" +
-                "update -res reservation_num [-user user_id]\n" +
-                "       [-card card_num] [-room room_id]\n" +
-                "       [-checkin yyyy/mm/dd] [-checkout yyyy/mm/dd]\n" +
-                "       [-adults x]\n" +
+                "%s" +
                 "	update reservation\n\n" +
-                "cancel -res reservation_num\n" +
+                "%s" +
                 "	cancel reservation\n\n" +
-                "history user_id\n" +
+                "%s" +
                 "	display active and past reservations\n\n" +
-                "quit\n" +
+                "%s" +
                 "	disconnect from server\n" +
-                "-----------------------------------------------------------\n");
+                "-----------------------------------------------------------\n",
+                connect_usage, search_usage, show_usage, reserve_usage, update_usage,
+                cancel_usage, history_usage, quit_usage);
     }
 
+    public static void print_search_usage() {
+    }
+    
     public static Func read_input(Scanner scanner) {
         String command[] = scanner.nextLine().toLowerCase().split("\\s+");
         if(command.length == 0) {
@@ -40,10 +55,18 @@ public class IO {
         }
         switch(command[0]) {
             case "connect":
+            	if(Database.connect_to_db() == null) {
+            		System.out.println("Failed to connect to database");
+            	}
+            	else {
+            		Main.connected = true;
+            	}
                 return Func.CONNECT;
             case "search":
+                Database.search_db(command);
                 return Func.SEARCH;
             case "show":
+            	Database.show_availabilities(command);
                 return Func.SHOW;
             case "reserve":
                 return Func.RESERVE;
@@ -56,7 +79,7 @@ public class IO {
             case "quit":
                 return Func.QUIT;
             default:
-                System.out.printf("%s: Invalid command\n", command[0]);
+                System.err.printf("%s: Invalid command\n", command[0]);
                 return Func.NONE;
         }
     }
