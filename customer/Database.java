@@ -30,7 +30,7 @@ public class Database {
 	}
 	
 	public static boolean is_valid_date(String date) {
-		String format = "yyyy/MM/dd";
+		String format = "yyyy-MM-dd";
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		sdf.setLenient(false);
 		if(date == null) {
@@ -83,24 +83,69 @@ public class Database {
 	public static void reserve_room(String[] commands) {
 		if(commands.length != 13) {
 			System.err.printf("Usage: %s", IO.reserve_usage);
+			return;
 		}
 		int i = 1;
+		Reservation res = new Reservation();
 		while(i < commands.length) {
 			switch(commands[i]) {
 				case "-user":
-					return;
+					res.user_id = IO.read_int(commands[i+1]);
+					if(res.user_id == -1) {
+						System.err.println("Invalid user ID");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i += 2;
+					break;
 				case "-card":
-					return;
+					res.card = IO.read_int(commands[i+1]);
+					if(res.card == -1) {
+						System.err.println("Invalid card number");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i += 2;
+					break;
 				case "-room":
-					return;
+					res.room = IO.read_int(commands[i+1]);
+					if(res.room == -1) {
+						System.err.println("Invalid room number");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i += 2;
+					break;
 				case "-checkin":
-					return;
+					res.checkin = commands[i+1];
+					if(!is_valid_date(res.checkin)) {
+						System.err.println("Invalid check-in date");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i+=2;
+					break;
 				case "-checkout":
-					return;
+					res.checkout = commands[i+1];
+					if(!is_valid_date(res.checkout)) {
+						System.err.println("Invalid check-out date");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i+=2;
+					break;
 				case "-adults":
-					return;
+					res.num_adults = IO.read_int(commands[i+1]);
+					if(res.num_adults == -1) {
+						System.err.println("Invalid number of adults");
+						System.err.printf("Usage: %s\n", IO.reserve_usage);
+						return;
+					}
+					i += 2;
+					break;
 				default:
 					System.err.printf("Usage: %s", IO.reserve_usage);
+					return;
 			}
 		}
 	}
@@ -125,12 +170,7 @@ public class Database {
 			System.err.printf("Usage: %s", IO.search_usage);
 			return;
 		}
-		
-		Room room = new Room();
-//		The system shall allow users to search for availabilities of rooms specifying day
-//		(checkout and check-in dates), the type of room (single, double, twin, etc), the
-//		decor, the price range, the number of rooms, and the number of occupants.
-		
+		Room room = new Room();		
 		while(i < commands.length) {
 			switch(commands[i]) {
 				case "-checkin":
@@ -155,6 +195,7 @@ public class Database {
 					room.beds = IO.read_int(commands[i+1]);
 					if(room.beds == -1) {
 						System.err.println("Invalid number of beds");
+						System.err.printf("Usage: %s\n", IO.search_usage);
 						return;
 					}
 					i+=2;
@@ -167,6 +208,7 @@ public class Database {
 					room.occupants = IO.read_int(commands[i+1]);
 					if(room.occupants == -1) {
 						System.err.println("Invalid number of occupants");
+						System.err.printf("Usage: %s\n", IO.search_usage);
 						return;
 					}
 					i+=2;
@@ -175,6 +217,7 @@ public class Database {
 					room.upper = IO.read_double(commands[i+1]);
 					if(room.upper == -1) {
 						System.err.println("Invalid upper price limit");
+						System.err.printf("Usage: %s\n", IO.search_usage);
 						return;
 					}
 					i+=2;
@@ -183,6 +226,7 @@ public class Database {
 					room.lower = IO.read_double(commands[i+1]);
 					if(room.upper == -1) {
 						System.err.println("Invalid lower price limit");
+						System.err.printf("Usage: %s\n", IO.search_usage);
 						return;
 					}
 					i+=2;
