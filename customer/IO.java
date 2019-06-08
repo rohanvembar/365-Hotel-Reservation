@@ -50,7 +50,6 @@ public class IO {
 			return num;
 		}
 		catch (Exception e) {
-			System.out.printf("Usage: %s", IO.history_usage);
 			return -1;
 		}
     }
@@ -61,7 +60,6 @@ public class IO {
 			return num;
 		}
 		catch (Exception e) {
-			System.out.printf("Usage: %s", IO.history_usage);
 			return -1;
 		}
     }
