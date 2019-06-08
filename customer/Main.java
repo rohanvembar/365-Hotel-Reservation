@@ -15,8 +15,8 @@ public class Main {
         //displayReservationsFromName();
         //displayReservation();
         //changeReservation();
-        //displayAvailAndPop();
-        searchRooms();
+        displayAvailAndPop();
+        //searchRooms();
     }
 
     final public static void printResultSet(ResultSet rs) throws SQLException {
@@ -221,13 +221,13 @@ public class Main {
     }
     public static void searchRooms() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("enter bed type (Double, Queen, King)");
+        System.out.println("enter bed type (Double, Queen, King) or leave blank for all");
         String bedtype = scanner.nextLine();
-        System.out.println("enter decor (Traditional, Rustic, Modern)");
+        System.out.println("enter decor (traditional, rustic, modern) or leave blank for all");
         String decor = scanner.nextLine();
-        System.out.println("enter max rate (per night)");
+        System.out.println("enter max rate (per night) or leave blank for no maximum");
         String maxrate = scanner.nextLine();
-        System.out.println("enter min rate (per night)");
+        System.out.println("enter min rate (per night) or leave blank for no minimum");
         String minrate = scanner.nextLine();
         System.out.println("enter number of guests");
         String numguests = scanner.nextLine();
@@ -244,14 +244,34 @@ public class Main {
 
             // Add the statement
             PreparedStatement preparedStatement = connection.prepareStatement("select roomName, numBeds, bedType,"+
-                    " maxOccupancy, rate, decor from Rooms where bedType = ? and decor = ? and rate < ? and rate > ? "+
+                    " maxOccupancy, rate, decor from Rooms where bedType LIKE ? and decor LIKE ? and rate < ? and rate > ? "+
                     "and maxOccupancy >= ? and roomID not in (select roomID from Reservations where (checkIn >= ? and "+
-                    "checkOut <= ?) and roomID in (select roomID from Rooms where bedType = ? and decor = ? and rate "+
+                    "checkOut <= ?) and roomID in (select roomID from Rooms where bedType LIKE ? and decor LIKE ? and rate "+
                     "< ? and rate > ? and maxOccupancy >= ?))");
-            preparedStatement.setString(1, bedtype);
-            preparedStatement.setString(2, decor);
-            preparedStatement.setString(3, maxrate);
-            preparedStatement.setString(4, minrate);
+            if (bedtype.isEmpty()) {
+                preparedStatement.setString(1, "%");
+            }
+            else {
+                preparedStatement.setString(1, bedtype);
+            }
+            if (decor.isEmpty()){
+                preparedStatement.setString(2, "%");
+            }
+            else {
+                preparedStatement.setString(2, decor);
+            }
+            if (maxrate.isEmpty()) {
+                preparedStatement.setString(3, "9999");
+            }
+            else {
+                preparedStatement.setString(3, maxrate);
+            }
+            if (minrate.isEmpty()) {
+                preparedStatement.setString(4, "0");
+            }
+            else {
+                preparedStatement.setString(4, minrate);
+            }
             preparedStatement.setString(5, numguests);
             preparedStatement.setDate(6, java.sql.Date.valueOf(checkin));
             preparedStatement.setDate(7, java.sql.Date.valueOf(checkout));
@@ -260,8 +280,6 @@ public class Main {
             preparedStatement.setString(10, maxrate);
             preparedStatement.setString(11, minrate);
             preparedStatement.setString(12, numguests);
-
-
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
