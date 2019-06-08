@@ -13,10 +13,10 @@ public class Main {
 	public static boolean connected = false;
     public static void main(String args[]) {
         //displayReservationsFromName();
-        //displayReservation();
+        displayReservation();
         //changeReservation();
         //displayAvailAndPop();
-        searchRooms();
+        //searchRooms();
     }
 
     final public static void printResultSet(ResultSet rs) throws SQLException {
@@ -61,6 +61,7 @@ public class Main {
             preparedStatement.setDate(2, java.sql.Date.valueOf(userDate));
 
             ResultSet resultSet = preparedStatement.executeQuery();
+
             printResultSet(resultSet);
 
         } catch (Exception sqlException) {
@@ -168,7 +169,6 @@ public class Main {
             PreparedStatement preparedStatement = connection.prepareStatement("select Reservations.id, firstName, lastName, roomName, checkIn, checkOut, rate from Reservations join Customers on Reservations.custID = Customers.id join Rooms on Reservations.roomID = Rooms.roomID where Reservations.id = ?");
             preparedStatement.setString(1, resId);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             printResultSet(resultSet);
 
         } catch (Exception sqlException) {
