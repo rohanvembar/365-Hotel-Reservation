@@ -16,6 +16,7 @@ public class Main {
         Func func;
         IO.overallUsage();
         do {
+        	System.out.printf("\n$: ");
             func = IO.read_input(scanner);
         } while(func != Func.QUIT);
     }
