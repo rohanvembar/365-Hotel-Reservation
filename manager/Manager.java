@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Manager {
 
@@ -12,8 +13,11 @@ public class Manager {
     static final String JDBC_USER = "sec03group05";
     static final String JDBC_PASS = "group05@sec03";
 
+    private static String connect_usage = "report";
+    private static String quit_usage = "quit";
 
-    public static void getReview() {
+
+    private static void getReview() {
         //Scanner scanner = new Scanner(System.in);
         try {
             //Check if the driver class is available
@@ -55,7 +59,7 @@ public class Manager {
                 month += 1;
             }
 
-            String header = String.format("%30s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s\n", "Room Name",
+            String header = String.format("%27s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s%10s\n", "Room Name",
                     "Jan.", "Feb.", "Mar.", "Apr.", "May.", "Jun.", "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec.", "Total");
 
             String barrier = "";
@@ -63,10 +67,16 @@ public class Manager {
                 barrier += "-";
             }
 
-            System.out.println(header+barrier);
+            System.out.println(barrier);
+            System.out.println("YEARLY REPORT");
+            System.out.println(barrier);
+            System.out.println(header + barrier);
+
             for (Room r : rooms){
                 System.out.println(r.toString());
             }
+
+            System.out.println(barrier + "\n");
 
         } catch (Exception sqlException) {
             sqlException.printStackTrace();
@@ -118,7 +128,30 @@ public class Manager {
         return month;
     }
 
+    private static void printUsage(){
+        System.out.printf(
+                "-----------------------------------------------------------\n" +
+                        "                          USAGE                        \n" +
+                        "-----------------------------------------------------------\n" +
+                        "%s:	Get Yearly Report\n\n" +
+                        "%s:	Leave the Manager Portal\n\n" + "Enter Command: ", connect_usage, quit_usage);
+    }
+
     public static void main(String args[]){
-        getReview();
+
+        Scanner myObj = new Scanner(System.in);
+        while (true) {
+            printUsage();
+            String response = myObj.nextLine();
+
+            if (response.equals("report")) {
+                getReview();
+            } else if (response.equals("quit")) {
+                System.out.println("\nGoodbye!");
+                break;
+            } else {
+                System.out.println("Invalid Response. Try Again");
+            }
+        }
     }
 }

@@ -33,12 +33,12 @@ public class Room {
     private String getStringArray(){
         String s = "";
         for (int i : revenues){
-            s += String.format("%10d", i);
+            s += String.format("%10s", "$" + Integer.toString(i));
         }
         return s;
     }
 
     public String toString(){
-        return String.format("%30s",room) + getStringArray() + "     " + Integer.toString(total);
+        return String.format("%27s",room) + getStringArray() + "     $" + Integer.toString(total);
     }
 }
