@@ -1,6 +1,6 @@
 CREATE TABLE `Rooms`
 (
-  `roomID` varchar(50) PRIMARY KEY,
+  `roomID` varchar(50) PRIMARY KEY AUTO_INCREMENT,
   `roomName` varchar(255) UNIQUE,
   `numBeds` int,
   `bedType` varchar(255),
@@ -11,7 +11,7 @@ CREATE TABLE `Rooms`
 
 CREATE TABLE `Reservations`
 (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `custID` int,
   `roomID` varchar(50),
   `cardNum` int,
@@ -33,7 +33,7 @@ CREATE TABLE `Cards`
 
 CREATE TABLE `Customers`
 (
-  `id` int PRIMARY KEY,
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `firstName` varchar(255),
   `lastName` varchar(255)
 );
