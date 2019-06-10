@@ -70,8 +70,9 @@ public class IO {
             return Func.NONE;
         }
         switch(command[0]) {
-            case "connect":
-            	if(Main.connected = true) {
+			case "connect":
+            	if(Main.connected == false) {
+					Database.connect_to_db();
             		return Func.CONNECT;
             	}
             	if(Database.connect_to_db() == null) {
@@ -79,46 +80,46 @@ public class IO {
             	}
             	else {
             		Main.connected = true;
-            	}
+				}
                 return Func.CONNECT;
             case "search":
-            	if(Main.connected = false) {
+            	if(Main.connected == false) {
             		System.err.println("Must connect to database");
             	}
                 Database.search_db(command);
                 return Func.SEARCH;
             case "show":
-            	if(Main.connected = false) {
+            	if(Main.connected == false) {
             		System.err.println("Must connect to database");
             	}
             	Database.show_availabilities(command);
                 return Func.SHOW;
             case "reserve":
-            	if(Main.connected = false) {
+            	if(Main.connected == false) {
             		System.err.println("Must connect to database");
             	}
             	Database.reserve_room(command);
                 return Func.RESERVE;
             case "update":
-            	if(Main.connected = false) {
+            	if(Main.connected == false) {
             		System.err.println("Must connect to database");
             	}
             	Database.update_reservation(command);
                 return Func.UPDATE;
             case "cancel":
-            	if(Main.connected = false) {
+            	if(Main.connected == false) {
             		System.err.println("Must connect to database");
             	}
             	Database.cancel_room(command);
                 return Func.CANCEL;
-            case "history":
-            	if(Main.connected = false) {
+			case "history":
+            	if(Main.connected == false) {
             		System.err.println("Must connect to database");
             	}
             	Database.get_history(command);
                 return Func.HISTORY;
             case "quit":
-            	if(Main.connected = false) {
+            	if(Main.connected == false) {
             		System.err.println("Must connect to database");
             	}
             	Database.disconnect();
