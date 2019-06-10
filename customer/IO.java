@@ -6,15 +6,13 @@ public class IO {
 	public static String search_usage = "search [-checkin yyyy-mm-dd] [-checkout yyyy-mm-dd]\n" +
 							            "       [-beds x] [-decor x] [-occupants x]\n" +
 							            "       [-type x] [-upper x] [-price x]\n";
-	public static String show_usage =  "show yyyy-mm-dd\n";
+	public static String show_usage =  "show\n";
 	public static String reserve_usage = "reserve -user user_id -card card_num -room room_id\n" +
 							            "        -checkin yyyy-mm-dd -checkout yyyy-mm-dd\n" +
 							            "        -adults num_adults\n";
-	public static String update_usage = "update -res reservation_num [-user user_id]\n" +
-            							"       [-room room_id][-checkin yyyy-mm-dd]\n" +
-							            "       [-checkout yyyy-mm-dd][-adults x]\n";
+	public static String update_usage = "update\n";
 	public static String cancel_usage = "cancel -res reservation_num\n";
-	public static String history_usage = "history user_id\n";
+	public static String history_usage = "history\n";
 	public static String quit_usage = "quit\n";
 	
     public static void overallUsage() {
@@ -76,7 +74,8 @@ public class IO {
             		return Func.CONNECT;
             	}
             	if(Database.connect_to_db() == null) {
-            		System.err.println("Failed to connect to database");
+					System.err.println("Failed to connect to database");
+					break;
             	}
             	else {
             		Main.connected = true;
@@ -84,49 +83,55 @@ public class IO {
                 return Func.CONNECT;
             case "search":
             	if(Main.connected == false) {
-            		System.err.println("Must connect to database");
+					System.err.println("Must connect to database");
+					break;
             	}
                 Database.search_db(command);
                 return Func.SEARCH;
             case "show":
             	if(Main.connected == false) {
-            		System.err.println("Must connect to database");
+					System.err.println("Must connect to database");
+					break;
             	}
-            	Database.show_availabilities(command);
+            	Database.show_availabilities();
                 return Func.SHOW;
             case "reserve":
             	if(Main.connected == false) {
-            		System.err.println("Must connect to database");
+					System.err.println("Must connect to database");
+					break;
             	}
             	Database.reserve_room(command);
                 return Func.RESERVE;
             case "update":
             	if(Main.connected == false) {
-            		System.err.println("Must connect to database");
+					System.err.println("Must connect to database");
+					break;
             	}
             	Database.update_reservation(command);
                 return Func.UPDATE;
             case "cancel":
             	if(Main.connected == false) {
-            		System.err.println("Must connect to database");
+					System.err.println("Must connect to database");
+					break;
             	}
             	Database.cancel_room(command);
                 return Func.CANCEL;
 			case "history":
             	if(Main.connected == false) {
-            		System.err.println("Must connect to database");
+					System.err.println("Must connect to database");
+					break;
             	}
-            	Database.get_history(command);
+            	Database.get_history();
                 return Func.HISTORY;
             case "quit":
-            	if(Main.connected == false) {
-            		System.err.println("Must connect to database");
+            	if(Main.connected == true) {
+					Database.disconnect();
             	}
-            	Database.disconnect();
                 return Func.QUIT;
             default:
                 System.err.printf("%s: Invalid command\n", command[0]);
                 return Func.NONE;
-        }
+		}
+		return Func.NONE;
     }
 }
