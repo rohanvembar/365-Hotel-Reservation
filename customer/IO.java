@@ -3,9 +3,7 @@ import java.util.Scanner;
 
 public class IO {
 	public static String connect_usage = "connect\n";
-	public static String search_usage = "search [-checkin yyyy-mm-dd] [-checkout yyyy-mm-dd]\n" +
-							            "       [-beds x] [-decor x] [-occupants x]\n" +
-							            "       [-type x] [-upper x] [-price x]\n";
+	public static String search_usage = "search \n";
 	public static String show_usage =  "show\n";
 	public static String reserve_usage = "reserve -user user_id -card card_num -room room_id\n" +
 							            "        -checkin yyyy-mm-dd -checkout yyyy-mm-dd\n" +
