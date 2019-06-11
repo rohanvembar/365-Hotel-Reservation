@@ -2,6 +2,8 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
+
+
 import java.time.LocalDate;
 
 public class Database {
@@ -25,6 +27,7 @@ public class Database {
 			Main.connected = true;
 			return connection;
 		} catch (Exception sqlException) {
+			sqlException.printStackTrace();
 			System.out.println("Something went wrong with the database");
 		}
 		return null;
@@ -161,38 +164,6 @@ public class Database {
 
 	}
 
-	final public static void printResultSet(ResultSet rs) throws SQLException {
-		int size = 0;
-		if (rs != null) {
-			rs.last();
-			size = rs.getRow();
-		}
-		if (size == 0) {
-			System.out.println("No results found. Try again.");
-			return;
-		}
-		rs.beforeFirst();
-
-		ResultSetMetaData rsmd = rs.getMetaData();
-		int columnsNumber = rsmd.getColumnCount();
-
-		for (int i = 1; i <= columnsNumber; i++) {
-			if (i > 1)
-				System.out.print("\t | \t");
-			System.out.print(rsmd.getColumnName(i));
-		}
-		System.out.println("");
-
-		while (rs.next()) {
-			for (int i = 1; i <= columnsNumber; i++) {
-				if (i > 1)
-					System.out.print("    |    ");
-				System.out.print(rs.getString(i));
-			}
-			System.out.println("");
-		}
-	}
-
 	public static void get_history() {
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter your first name: ");
@@ -206,7 +177,7 @@ public class Database {
 			preparedStatement.setString(2, lastName);
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			printResultSet(resultSet);
+			DBTablePrinter.printResultSet(resultSet);
 
 		} catch (Exception sqlException) {
 			System.out.println("Something went wrong with the database");
@@ -313,7 +284,7 @@ public class Database {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			printResultSet(resultSet);
+			DBTablePrinter.printResultSet(resultSet);
 
 		} catch (Exception sqlException) {
 			System.out.println("Something went wrong with the database");
@@ -385,7 +356,7 @@ public class Database {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			printResultSet(resultSet);
+			DBTablePrinter.printResultSet(resultSet);
 
 		} catch (Exception sqlException) {
 			System.out.println("Something went wrong with the database.");
