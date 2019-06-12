@@ -98,7 +98,7 @@ public class IO {
 					System.err.println("Must connect to database");
 					break;
             	}
-            	Database.reserve_room(command);
+            	Database.bookReservation(command);
                 return Func.RESERVE;
             case "update":
             	if(Main.connected == false) {
@@ -112,7 +112,7 @@ public class IO {
 					System.err.println("Must connect to database");
 					break;
             	}
-            	Database.cancel_room(command);
+            	Database.cancelReservation(command);
                 return Func.CANCEL;
 			case "history":
             	if(Main.connected == false) {
