@@ -172,7 +172,7 @@ public class Database {
 		String lastName = scanner.nextLine();
 		try {
 			PreparedStatement preparedStatement = db_connection.prepareStatement(
-					"select firstName, lastName, roomName, checkIn, checkOut, rate from Reservations join Customers on Reservations.custID = Customers.id join Rooms on Reservations.roomID = Rooms.roomID where firstName = ? and lastname = ?");
+					"select firstName, lastName, roomName, checkIn, checkOut, rate, active from Reservations join Customers on Reservations.custID = Customers.id join Rooms on Reservations.roomID = Rooms.roomID where firstName = ? and lastname = ?");
 			preparedStatement.setString(1, firstName);
 			preparedStatement.setString(2, lastName);
 			ResultSet resultSet = preparedStatement.executeQuery();
