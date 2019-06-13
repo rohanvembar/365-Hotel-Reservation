@@ -525,13 +525,36 @@ public class Database {
 			int rate = resultSet.getInt("rate");
 			decor = resultSet.getString("decor");
 
+
+			try{//FIND CREDIT CARD IN DATABASE
+				PreparedStatement preparedStatement15 = connection.prepareStatement
+						("select *" +
+								"from Cards " +
+								"where cardNum = ?;");
+				preparedStatement15.setInt(1, card);
+
+				ResultSet resultSet15 = preparedStatement15.executeQuery();
+				resultSet15.next();
+				int card_1 = resultSet15.getInt("cardNum");
+
+
+			}
+
+
+			//IF CREDIT CARD NOT IN DATABASE: ADD CUSTOMER
+			catch (Exception sqlException){
+
+				PreparedStatement preparedStatement13 = connection.prepareStatement
+						(" insert into Cards (cardNum)"
+								+ " values (?);");
+				preparedStatement13.setInt(1, card);
+				preparedStatement13.executeUpdate();
+
+
+			}
 			//INSERT CREDIT CARD NUMBER
 
-			PreparedStatement preparedStatement1 = connection.prepareStatement
-					(" insert into Cards (cardNum)"
-							+ " values (?);");
-			preparedStatement1.setInt(1, card);
-			preparedStatement1.executeUpdate();
+
 
 			//get max reservation id
 			PreparedStatement preparedStatement10 = connection.prepareStatement
@@ -562,7 +585,7 @@ public class Database {
 				preparedStatement2.setString(2, last_name);
 
 				ResultSet resultSet1 = preparedStatement2.executeQuery();
-				resultSet.next();
+				resultSet1.next();
 				String firstName = resultSet1.getString("firstName");
 				String lastName = resultSet1.getString("lastName");
 
