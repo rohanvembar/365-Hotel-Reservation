@@ -665,7 +665,6 @@ public class Database {
 
 		} catch (Exception sqlException) {
 			System.out.println("No Rooms Avaliable Matching Preferences");
-			sqlException.printStackTrace();
 		}
 	}
 
