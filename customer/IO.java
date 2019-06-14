@@ -5,11 +5,9 @@ public class IO {
 	public static String connect_usage = "connect\n";
 	public static String search_usage = "search \n";
 	public static String show_usage =  "show\n";
-	public static String reserve_usage = "reserve -user user_id -card card_num -room room_id\n" +
-							            "        -checkin yyyy-mm-dd -checkout yyyy-mm-dd\n" +
-							            "        -adults num_adults\n";
+	public static String reserve_usage = "reserve\n";
 	public static String update_usage = "update\n";
-	public static String cancel_usage = "cancel -res reservation_num\n";
+	public static String cancel_usage = "cancel \n";
 	public static String history_usage = "history\n";
 	public static String quit_usage = "quit\n";
 	
