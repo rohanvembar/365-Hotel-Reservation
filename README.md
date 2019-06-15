@@ -1,9 +1,5 @@
 # 365-Hotel-Reservation
 
-## To do:
-https://docs.google.com/document/d/19cFjBRe0ILdlsnhS8IWN_nddhsG6BiMJB4WtcVKNjtw/edit
-
-
 ## To run on the command line:
 ### Before doing anything else
 * `export CLASSPATH=$CLASSPATH:PATH_TO_REPO/365-Hotel-Reservation/drivers/*`
